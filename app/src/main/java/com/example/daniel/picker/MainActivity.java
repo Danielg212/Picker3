@@ -1,9 +1,14 @@
 package com.example.daniel.picker;
 
 import android.net.Uri;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
@@ -28,26 +33,35 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, OnResultsListner {
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    String mtext;
+    // Your API key
+    final private String key = "AIzaSyDPBgjk93v1UjNYK-JAeHE3A2F-A8N725w";
+    // My Search Engine ID
+    final private String cx = "016605007659057693979:myk5rslzoti";
+   // private GridView gridView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         final EditText eText;
-        final List<String> Thumbnails = new ArrayList<String>();
+        List<String> mThumbs = new ArrayList<String>();
+
         Button btn;
         eText = (EditText) findViewById(R.id.editText);
         btn = (Button) findViewById(R.id.button);
-        final GridView gridView= (GridView) findViewById(R.id.gridView);
-      
+
+
 
         /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, Thumbnails);*/
@@ -66,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });*/
-        btn.setOnClickListener(new View.OnClickListener() {
+       /* btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String str = eText.getText().toString();
@@ -80,12 +94,7 @@ public class MainActivity extends AppCompatActivity {
                             // looking for
                             String strNoSpaces = str.replace(" ", "+");
 
-                            // Your API key
-                            String key = "AIzaSyDPBgjk93v1UjNYK-JAeHE3A2F-A8N725w";
 
-
-                            // Your Search Engine ID
-                            String cx = "016605007659057693979:myk5rslzoti";
                             String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
                            // String url2 = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDPBgjk93v1UjNYK-JAeHE3A2F-A8N725w&cx=016605007659057693979:myk5rslzoti&q=lectures";
 
@@ -147,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 thread.start();
                 gridView.setAdapter(new ImageAdapter(MainActivity.this,Thumbnails));
             }
-        });
+        });*/
 
 
         // gridView.setAdapter(new ImageAdapter(this,urls));
@@ -155,45 +164,41 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu,menu);
+        MenuItem serchitem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(serchitem);
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        mtext = query;
+        String strNoSpaces = query.replace(" ", "+");
+        String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
+        new JsonTask(this).execute(url);
+        return false;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.daniel.picker/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+
+    @Override
+    public void onImagesCompleted(List<String> images) {
+        GridView gridView= (GridView) findViewById(R.id.gridView);
+        gridView.setAdapter(new ImageAdapter(this,images));
+
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onImagesError(String error) {
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.daniel.picker/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 }
