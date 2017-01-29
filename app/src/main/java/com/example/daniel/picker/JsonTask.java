@@ -74,6 +74,7 @@ public class JsonTask extends AsyncTask<String,String,String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         try {
+           // mThumbs.clear();
             JSONObject jsonObj = new JSONObject(s);
             JSONArray results = jsonObj.getJSONArray("items");
 

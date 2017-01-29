@@ -54,12 +54,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final EditText eText;
         List<String> mThumbs = new ArrayList<String>();
 
-        Button btn;
-        eText = (EditText) findViewById(R.id.editText);
-        btn = (Button) findViewById(R.id.button);
+
 
 
 
@@ -181,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         String strNoSpaces = query.replace(" ", "+");
         String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
         new JsonTask(this).execute(url);
+
         return false;
     }
 
