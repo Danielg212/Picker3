@@ -58,8 +58,11 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
         String url = getItem(position);
+        String urlfix =url.replace("http","https");
+       /* Picasso.with(mContext).load(url).centerCrop().into(imageView);*/
+
         Picasso.with(mContext)
-                .load(url)
+                .load(urlfix)
                 .placeholder(R.drawable.common_full_open_on_phone)
                 .fit()
                 .centerCrop().into(imageView);

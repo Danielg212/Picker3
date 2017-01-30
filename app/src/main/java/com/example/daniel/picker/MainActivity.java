@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -47,15 +49,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     // My Search Engine ID
     final private String cx = "016605007659057693979:myk5rslzoti";
    // private GridView gridView;
-
+   private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    List<String> mThumbs = new ArrayList<String>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<String> mThumbs = new ArrayList<String>();
 
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mAdapter = new MyAdapter(this,mThumbs);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
 
@@ -174,10 +183,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
+
         mtext = query;
         String strNoSpaces = query.replace(" ", "+");
-        String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
+       // String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
+        String url ="http://jsonplaceholder.typicode.com/photos?albumId=1";
         new JsonTask(this).execute(url);
+
 
         return false;
     }
@@ -190,8 +202,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public void onImagesCompleted(List<String> images) {
-        GridView gridView= (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new ImageAdapter(this,images));
+       // GridView gridView= (GridView) findViewById(R.id.gridView);
+        //gridView.setAdapter(new ImageAdapter(this,images));
+      //  mThumbs.addAll(images);
+        mThumbs.add("http://wallpaper-gallery.net/images/image/image-13.jpg");
+        mThumbs.add("http://s31.postimg.org/cq2pz5z23/hamster.jpg");
+        mThumbs.add("https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg");
+        mThumbs.add("http://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg");
+        mThumbs.add("https://upload.wikimedia.org/wikipedia/en/b/bb/Maiden_Flight_of_Long_March_6_Rocket.jpg");
+
+        mAdapter = new MyAdapter(this,mThumbs);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
@@ -199,4 +221,5 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onImagesError(String error) {
 
     }
+
 }
