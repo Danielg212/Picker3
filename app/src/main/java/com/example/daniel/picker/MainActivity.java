@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnResultsListner 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     List<String> mThumbs = new ArrayList<>();
-    static int i = 0;
+    private SearchView searchView;
 
 
     @Override
@@ -102,12 +102,15 @@ public class MainActivity extends AppCompatActivity implements OnResultsListner 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
         // MenuItem serchitem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query != null) {
-
+                    searchView.clearFocus();
+                    //mtext = query;
+                    //String strNoSpaces = query.replace(" ", "+");
+                    //String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
                     String url = "http://jsonplaceholder.typicode.com/photos?albumId=1";
                     new JsonTask(MainActivity.this).execute(url);
                 }
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnResultsListner 
             }
 
         });
-        searchView.clearFocus();
+
         return super.onCreateOptionsMenu(menu);
     }
 
