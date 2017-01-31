@@ -26,11 +26,13 @@ public class JsonTask extends AsyncTask<String,String,String> {
     List<String> mThumbs = new ArrayList<String>();
 
     public JsonTask(OnResultsListner onresultslistner){
+        Log.i("log_tag", "In: OnResultsListner ");
         mListner=onresultslistner;
     }
 
     @Override
     protected String doInBackground(String... params) {
+        Log.i("log_tag", "In: doInBackground ");
         URL url = null;
         try {
             url = new URL(params[0]);
@@ -72,6 +74,8 @@ public class JsonTask extends AsyncTask<String,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
+        Log.i("log_tag", "In: doInBackground ");
+
         super.onPostExecute(s);
         try {
            // mThumbs.clear();
