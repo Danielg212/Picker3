@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
+    android:orientation="vertical"
+    android:id="@+id/rl"
+    android:padding="16dp"
+
     tools:context="com.example.daniel.picker.MainActivity">
 
     <!-- A RecyclerView with some commonly used attributes -->
@@ -18,22 +18,22 @@
         android:layout_height="match_parent"/>
 
 
-  <!--  <GridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gridView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:numColumns="auto_fit"
-        android:columnWidth="100dp"
-        android:stretchMode="spacingWidthUniform"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="10dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />-->
+    <!--  <GridView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/gridView"
+          android:layout_alignParentLeft="true"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentEnd="true"
+          android:numColumns="auto_fit"
+          android:columnWidth="100dp"
+          android:stretchMode="spacingWidthUniform"
+          android:horizontalSpacing="5dp"
+          android:verticalSpacing="10dp"
+          android:layout_centerVertical="true"
+          android:layout_centerHorizontal="true"
+          />-->
 
 
 

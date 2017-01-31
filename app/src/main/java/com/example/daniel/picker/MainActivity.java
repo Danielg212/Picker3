@@ -4,9 +4,11 @@ import android.net.Uri;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mAdapter = new MyAdapter(this,mThumbs);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // mAdapter = new MyAdapter(this,mThumbs);
+        // mRecyclerView.setAdapter(mAdapter);
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        //Button btn = (Button) findViewById(R.id.button);
 
 
         /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -89,24 +91,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
        /* btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String str = eText.getText().toString();
+
                 //result.setText("Searchin for: " + str);
 
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            Thumbnails.clear();
-                            // looking for
-                            String strNoSpaces = str.replace(" ", "+");
 
 
-                            String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
-                           // String url2 = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDPBgjk93v1UjNYK-JAeHE3A2F-A8N725w&cx=016605007659057693979:myk5rslzoti&q=lectures";
+                            //String url = "https://www.googleapis.com/customsearch/v1?q=busty&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
+                            String url2 = "https://www.googleapis.com/customsearch/v1?q=test&cx=016605007659057693979%3Amyk5rslzoti&key=AIzaSyDPBgjk93v1UjNYK-JAeHE3A2F-A8N725w";
 
 
 
-                            String result2 = httpGet(url);
+                            String result2 = httpGet(url2);
 
                             JSONObject jsonObj = new JSONObject(result2.toString());
                             JSONArray results = jsonObj.getJSONArray("items");
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                             for(int i=0; i<results.length(); i++){
                                 JSONObject json_data = results.getJSONObject(i);
                                 JSONObject thumbnailImage = json_data.getJSONObject("image");
-                                Thumbnails.add(thumbnailImage.getString("thumbnailLink"));
+
                                 Log.i("log_tag", "Image: " + thumbnailImage.getString("thumbnailLink"));
                                   }
 
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 });
 
                 thread.start();
-                gridView.setAdapter(new ImageAdapter(MainActivity.this,Thumbnails));
+            //    gridView.setAdapter(new ImageAdapter(MainActivity.this,Thumbnails));
             }
         });*/
 
@@ -184,11 +183,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String query) {
 
-        mtext = query;
-        String strNoSpaces = query.replace(" ", "+");
-       // String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
+        //mtext = query;
+        //String strNoSpaces = query.replace(" ", "+");
+        //String url = "https://www.googleapis.com/customsearch/v1?q="+strNoSpaces+"&cx=" + cx + "&searchType=image&fields=items/image&key=" + key;
         String url ="http://jsonplaceholder.typicode.com/photos?albumId=1";
         new JsonTask(this).execute(url);
+
 
 
         return false;
@@ -204,16 +204,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onImagesCompleted(List<String> images) {
        // GridView gridView= (GridView) findViewById(R.id.gridView);
         //gridView.setAdapter(new ImageAdapter(this,images));
-      //  mThumbs.addAll(images);
-        mThumbs.add("http://wallpaper-gallery.net/images/image/image-13.jpg");
-        mThumbs.add("http://s31.postimg.org/cq2pz5z23/hamster.jpg");
+        //mThumbs.addAll(images);
+        // mThumbs.add("http://wallpaper-gallery.net/images/image/image-13.jpg");
+        mThumbs.add("http://www.w3schools.com/css/img_fjords.jpg");
+        mThumbs.add("http://wallpaper-gallery.net/images/image/image-18.png");
+        mThumbs.add("http://www.w3schools.com/css/img_fjords.jpg");
         mThumbs.add("https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg");
-        mThumbs.add("http://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg");
-        mThumbs.add("https://upload.wikimedia.org/wikipedia/en/b/bb/Maiden_Flight_of_Long_March_6_Rocket.jpg");
+        mThumbs.add("https://www.smashingmagazine.com/wp-content/uploads/2016/01/07-responsive-image-example-castle-7-opt.jpg");
+        mThumbs.add("http://images.freeimages.com/images/thumbs/61e/glass-of-wine-outdoor-party-image-1632473.jpg");
+        mThumbs.add("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/25126583741_d7db3f6905_o.jpg?itok=jYAcBCmb");
+        mThumbs.add("http://www.online-image-editor.com//styles/2014/images/example_image.png");
 
         mAdapter = new MyAdapter(this,mThumbs);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        //mAdapter = new MyAdapter(this,mThumbs);
+        // mRecyclerView.setAdapter(mAdapter);
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 

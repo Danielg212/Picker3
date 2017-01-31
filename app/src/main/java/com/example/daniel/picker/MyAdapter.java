@@ -45,16 +45,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         String url = mThumbs.get(position);
         //String fixurl  =url.replace("http","https");
-        Transformation transformation = new RoundedTransformationBuilder()
+     /*   Transformation transformation = new RoundedTransformationBuilder()
                 //.borderColor(Color.BLACK)
                 //.borderWidthDp(3)
                 .cornerRadiusDp(30)
                 .oval(false)
-                .build();
+                .build();*/
         //holder.imageview.setImageResource();
         Picasso.with(mcontext)
                 .load(url)
-                .transform(transformation)
+                //.resize(200, 150)
+                // .centerCrop()
+                //.transform(transformation)
                 .into(holder.imageview);
 
     }

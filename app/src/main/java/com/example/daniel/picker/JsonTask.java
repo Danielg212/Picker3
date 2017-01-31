@@ -76,12 +76,12 @@ public class JsonTask extends AsyncTask<String,String,String> {
         try {
            // mThumbs.clear();
             JSONArray results  = new JSONArray(s);
-            /*JSONObject jsonObj = new JSONObject(s);
-            JSONArray results = jsonObj.getJSONArray("items");*/
+            //  JSONObject jsonObj = new JSONObject(s);
+            //JSONArray results = jsonObj.getJSONArray("items");
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject json_data = results.getJSONObject(i);
-              //  JSONObject thumbnailImage = json_data.getJSONObject("image");
+                // JSONObject thumbnailImage = json_data.getJSONObject("image");
                mThumbs.add(json_data.getString("url"));
                 Log.i("log_tag", "Image: " + json_data.getString("thumbnailUrl"));
             }
